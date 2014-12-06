@@ -29,6 +29,42 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define "gitlab" do |gitlab_config|
+    gitlab_config.vm.box = "puppetlabs/centos-6.5-64-puppet"
+    gitlab_config.vm.network "private_network", ip: "192.168.55.12"
+    gitlab_config.vm.provision :shell do |shell|
+      shell.path = "bootstrap.sh"
+      shell.args = "gitlab"
+    end
+    gitlab_config.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "512", "--name", "gitlab"]
+    end
+  end
+
+  config.vm.define "nodejs" do |nodejs_config|
+    nodejs_config.vm.box = "puppetlabs/centos-6.5-64-puppet"
+    nodejs_config.vm.network "private_network", ip: "192.168.55.13"
+    nodejs_config.vm.provision :shell do |shell|
+      shell.path = "bootstrap.sh"
+      shell.args = "nodejs"
+    end
+    nodejs_config.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "512", "--name", "nodejs"]
+    end
+  end
+
+  config.vm.define "node1" do |node1_config|
+    node1_config.vm.box = "puppetlabs/centos-6.5-64-puppet"
+    node1_config.vm.network "private_network", ip: "192.168.55.14"
+    node1_config.vm.provision :shell do |shell|
+      shell.path = "bootstrap.sh"
+      shell.args = "nodejs"
+    end
+    node1_config.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "512", "--name", "node1"]
+    end
+  end
+
 end
 
 
