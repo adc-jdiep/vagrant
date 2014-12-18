@@ -1,29 +1,22 @@
 #!/bin/bash
 
-hostname $1.asdfkjh.com
+hostname $1.asdflkjh.com
 
 rm /etc/localtime -f
 ln -s /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
 
 echo '
-192.168.55.10 puppet.asdfkjh.com puppet
+192.168.55.10 puppet.asdflkjh.com puppet
 192.168.55.11 jd.asdflkjh.com jd
-192.168.55.12 gitlab.asdfkjh.com gitlab
-192.168.55.13 nodejs.asdfkjh.com nodejs
-192.168.55.14 node1.asdfkjh.com node1
+192.168.55.12 gitlab.asdflkjh.com gitlab
+192.168.55.13 nodejs.asdflkjh.com nodejs
+192.168.55.14 node1.asdflkjh.com node1
+192.168.55.15 node2.asdflkjh.com node2
+192.168.55.16 node3.asdflkjh.com node3
+192.168.55.17 node4.asdflkjh.com node4
 ' >> /etc/hosts
 
-if [ -f /etc/redhat-release ]; then
-  sed -i "s/localhost.localdomain/$1.example.com/" /etc/sysconfig/network
-  rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-  sleep 5
-  yum install -y puppet
-  chkconfig puppet on
-fi
-
-if [ -f /etc/debian_version ]; then
-  hostname > /etc/hostname
-fi
+sed -i "s/localhost.localdomain/$1.asdflkjh.com/" /etc/sysconfig/network
 
 if [ $1 == "puppet" ]; then
   service iptables stop
