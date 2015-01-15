@@ -65,6 +65,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define "docker" do |docker_config|
+    docker_config.vm.box = "puppetlabs/centos-6.5-64-puppet"
+    docker_config.vm.network "private_network", ip: "192.168.55.15"
+    docker_config.vm.provision :shell do |shell|
+      shell.path = "bootstrap.sh"
+      shell.args = "docker"
+    end
+    docker_config.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "512", "--name", "docker"]
+    end
+  end
+
 end
 
 

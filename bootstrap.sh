@@ -11,9 +11,7 @@ echo '
 192.168.55.12 gitlab.asdflkjh.com gitlab
 192.168.55.13 nodejs.asdflkjh.com nodejs
 192.168.55.14 node1.asdflkjh.com node1
-192.168.55.15 node2.asdflkjh.com node2
-192.168.55.16 node3.asdflkjh.com node3
-192.168.55.17 node4.asdflkjh.com node4
+192.168.55.15 docker.asdflkjh.com docker
 ' >> /etc/hosts
 
 sed -i "s/localhost.localdomain/$1.asdflkjh.com/" /etc/sysconfig/network
