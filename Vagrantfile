@@ -58,7 +58,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     node1_config.vm.network "private_network", ip: "192.168.55.14"
     node1_config.vm.provision :shell do |shell|
       shell.path = "bootstrap.sh"
-      shell.args = "nodejs"
+      shell.args = "node1"
     end
     node1_config.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "512", "--name", "node1"]
