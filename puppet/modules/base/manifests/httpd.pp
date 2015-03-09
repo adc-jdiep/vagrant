@@ -1,7 +1,7 @@
 class base::httpd {
 
-  package {'httpd':
-    ensure => 'installed',
-  }
+  ensure_resource('package','httpd',
+    { ensure => 'present' }
+  )
 
 }

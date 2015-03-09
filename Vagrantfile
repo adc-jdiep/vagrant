@@ -12,6 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       shell.path = "bootstrap.sh"
       shell.args = "puppet"
     end
+   puppet_config.vm.synced_folder "./puppet", "/etc/puppet"
+
     puppet_config.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "1024", "--name", "puppet"]
     end

@@ -1,0 +1,170 @@
+# Python modules related
+#
+# adc-python - base packages needed
+# adc-python::modules - all packages required for awb1.5 to work
+# adc-python::modules_adds - any test modules to be added before moving to core modules
+# adc-python::prod_fix - fix installation permission on prod
+
+class adc-python {
+  include adc-httpd
+  include adc-python::modules
+
+  package { "python": 
+    ensure => 'installed'
+  }
+  package { "openssl":
+    ensure => 'installed',
+    require => Package["httpd"]
+  }
+  package { "mod_ssl":
+    ensure => 'installed',
+    require => Package["openssl"]
+  }
+  package { "mod_wsgi":
+    ensure => 'installed',
+    require => Package["python"]
+  }
+  package { "python-setuptools":
+    ensure => 'installed',
+    require => Package["python"]
+  }
+  package { "MySQL-python":
+    ensure => 'installed',
+    require => Package["python"]
+  }
+  package { "python-memcached":
+    ensure => 'installed',
+    require => Package["python"]
+  }
+  package { "python-pip":
+    ensure => 'installed',
+    require => Package["python"]
+  }
+}
+
+class adc-python::modules_adds {
+}
+
+class adc-python::modules {
+  $modules={
+    nose=>'1.3.3',
+    redis=>'2.7.3',
+    jinja2=>'2.7.3',
+    cssmin=>'0.2.0',
+    jsmin=>'2.0.11',
+    bottle=>'0.12.7',
+    requests=>'2.3.0',
+    webassets=>'0.10.1',
+    phpserialize=>'1.3',
+    newrelic=>'2.24.0.21',
+    beautifulsoup4=>'4.3.2',
+  }
+
+  exec {'hello':
+    command => "/bin/echo $modules{key} > /tmp/$modules{key}"
+  }
+
+  exec {"$modules{key}":
+    command => "/bin/rm -rf /tmp/pip-build-root/$modules{key}  /usr/bin/pip install -U $modules{key}==$modules{value}",
+    onlyif => "/usr/bin/pip freeze | /bin/grep -c $modules{key}==$modules{value}",
+    notify => Service['httpd'],
+    require => Package['python-pip'],
+  }
+}
+
+# adc-python::prod_fix
+#
+# Fix permission on prod as the python installs set different permission
+# on prod vs other environments
+#
+class adc-python::prod_fix {
+
+  file {'/usr/lib/python2.6/site-packages/bottle-0.12.7-py2.6.egg-info':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/bottle.py':
+    mode => 705,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/bottle.pyc':
+    mode => 705,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/cssmin-0.2.0-py2.6.egg-info':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/cssmin.py':
+    mode => 705,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/cssmin.pyc':
+    mode => 705,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/jinja2':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/Jinja2-2.7.3-py2.6.egg-info':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/jsmin':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/jsmin-2.0.11-py2.6.egg-info':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/nose':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/nose-1.3.3-py2.6.egg-info':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/requests':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/requests-2.3.0-py2.6.egg-info':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/webassets':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib/python2.6/site-packages/webassets-0.10.1-py2.6.egg-info':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib64/python2.6/site-packages/markupsafe':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  file {'/usr/lib64/python2.6/site-packages/MarkupSafe-0.23-py2.6.egg-info':
+    mode => 705,
+    recurse => true,
+    notify => Service['httpd'],
+  }
+  
+}
+

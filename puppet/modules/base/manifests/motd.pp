@@ -11,10 +11,10 @@ class base::motd {
   }
  
   $motd = $environment ? {
-     'development' => "===== Development =====\n\n",
-     'qa'          => "===== QA =====\n\n",
-     'merging'     => "===== Merge =====\n\n",
-     'production'  => "===== Production =====\n\n"
+     'development' => "===== $hostgroup Development =====\n\n",
+     'qa'          => "===== $hostgroup QA =====\n\n",
+     'merging'     => "===== $hostgroup Merge =====\n\n",
+     'production'  => "===== $hostgroup Production =====\n\n"
   }
   file { '/etc/motd' :
     content => $motd,

@@ -4,7 +4,7 @@ class base {
   include base::httpd
   include base::php
 
-  $packages=['epel-release','telnet','bind-utils']
+  $packages=['epel-release','telnet','bind-utils','bzip2']
 
   package {$packages:
     ensure => 'installed',
