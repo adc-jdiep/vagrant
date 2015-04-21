@@ -1,12 +1,10 @@
 # Python modules related
 #
-# adc_python - base packages
-# adc_python::modules - all packages required for awb1.5 to work
-# adc_python::prod_fix
+# python - base packages
+# python::modules - all packages required for awb1.5 to work
+# python::prod_fix
 
-class adc_python {
-  include adc_httpd
-  include adc_python::modules
+class python {
 
   package { "python": 
     ensure => 'installed'

@@ -1,4 +1,4 @@
-class adc_httpd {
+class httpd {
 
   ensure_resource('package','httpd',
     { ensure => 'present' }
@@ -6,6 +6,7 @@ class adc_httpd {
 
   service {'httpd':
     ensure => running,
+    enable => true,
     require => Package['httpd']
   }
 
